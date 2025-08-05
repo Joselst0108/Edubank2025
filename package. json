@@ -1,1 +1,51 @@
-
+{
+  "name": "Edubank2025",
+  "version": "1.0.0",
+  "description": "Plataforma educativa financiera para gestión de préstamos, becas y pagos estudiantiles.",
+  "main": "index.js",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "keywords": [
+    "educación",
+    "fintech",
+    "préstamos",
+    "estudiantes",
+    "banca",
+    "react"
+  ],
+  "author": "José Luis <joselst0108@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.14.13",
+    "@mui/x-data-grid": "^6.17.0",
+    "axios": "^1.5.1",
+    "firebase": "^9.23.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.16.0",
+    "react-scripts": "5.0.1",
+    "styled-components": "^5.3.10"
+  },
+  "devDependencies": {
+    "eslint": "^8.52.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=7.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joselst0108/edubank2025.git"
+  }
+}
