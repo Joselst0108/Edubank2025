@@ -1,0 +1,39 @@
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
+import ThemeProvider from './components/ThemeProvider';
+
+function App() {
+  const [theme, setTheme] = useState({ 
+    primary: '#007A3D', 
+    secondary: '#FED100', 
+    logo: 'https://via.placeholder.com/120x40?text=LOGO', 
+    name: 'Banca Escolar' 
+  });
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) setUser(JSON.parse(savedUser));
+  }, []);
+
+  const updateTheme = (newTheme) => {
+    setTheme(newTheme);
+  };
+
+  return (
+    <ThemeProvider value={{ theme, updateTheme }}>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login setUser={setUser} />} />
+          <Route path="/dashboard" element={<Dashboard user={user} />} />
+        </Routes>
+      </Router>
+    </ThemeProvider>
+  );
+}
+
+export default App;
