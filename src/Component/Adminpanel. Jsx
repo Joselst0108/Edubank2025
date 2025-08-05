@@ -1,0 +1,298 @@
+import React, { useState } from 'react';
+
+export default function AdminPanel() {
+  const [schools, setSchools] = useState([
+    { id: 1, name: 'Colegio San Ignacio', address: 'Av. Principal 123', contact_email: 'contacto@sanignacio.edu.pe' },
+    { id: 2, name: 'Colegio Santa María', address: 'Calle Luna 456', contact_email: 'info@santamaria.edu.pe' }
+  ]);
+
+  const [teachers, setTeachers] = useState([
+    { id: 1, name: 'Prof. Rodríguez', username: 'profe1', school_id: 1, is_coordinator: true },
+    { id: 2, name: 'Prof. López', username: 'profe2', school_id: 1, is_coordinator: false },
+    { id: 3, name: 'Prof. Gómez', username: 'profe3', school_id: 2, is_coordinator: true }
+  ]);
+
+  const [newSchool, setNewSchool] = useState({ name: '', address: '', contact_email: '' });
+  const [newTeacher, setNewTeacher] = useState({ name: '', username: '', password: '', school_id: '', is_coordinator: false });
+
+  // === CREAR COLEGIO ===
+  const handleCreateSchool = () => {
+    if (!newSchool.name || !newSchool.address || !newSchool.contact_email) {
+      alert('Por favor, completa todos los campos del colegio');
+      return;
+    }
+
+    const school = {
+      id: schools.length + 1,
+      ...newSchool
+    };
+
+    setSchools([...schools, school]);
+    setNewSchool({ name: '', address: '', contact_email: '' });
+    alert(`✅ Colegio "${school.name}" creado con éxito`);
+  };
+
+  // === ELIMINAR COLEGIO ===
+  const handleDeleteSchool = (id) => {
+    if (window.confirm('¿Estás seguro de eliminar este colegio? Se borrarán sus docentes y alumnos.')) {
+      setSchools(schools.filter(s => s.id !== id));
+      setTeachers(teachers.filter(t => t.school_id !== id));
+    }
+  };
+
+  // === CREAR DOCENTE ===
+  const handleCreateTeacher = () => {
+    const { name, username, password, school_id, is_coordinator } = newTeacher;
+    if (!name || !username || !password || !school_id) {
+      alert('Completa todos los campos');
+      return;
+    }
+
+    const teacher = {
+      id: teachers.length + 1,
+      name,
+      username,
+      password: '****', // No mostramos la contraseña real
+      school_id: parseInt(school_id),
+      is_coordinator: Boolean(is_coordinator)
+    };
+
+    setTeachers([...teachers, teacher]);
+    setNewTeacher({ name: '', username: '', password: '', school_id: '', is_coordinator: false });
+    alert(`✅ Docente "${name}" creado con éxito`);
+  };
+
+  // === ELIMINAR DOCENTE ===
+  const handleDeleteTeacher = (id) => {
+    if (window.confirm('¿Eliminar este docente?')) {
+      setTeachers(teachers.filter(t => t.id !== id));
+    }
+  };
+
+  return (
+    <div style={styles.container}>
+      <h2 style={styles.title}>🔐 Panel del Administrador</h2>
+
+      {/* === GESTIÓN DE COLEGIOS === */}
+      <section style={styles.section}>
+        <h3 style={styles.subtitle}>🏫 Gestionar Colegios</h3>
+
+        <div style={styles.formRow}>
+          <input
+            type="text"
+            placeholder="Nombre del colegio"
+            value={newSchool.name}
+            onChange={e => setNewSchool({ ...newSchool, name: e.target.value })}
+            style={styles.input}
+          />
+          <input
+            type="text"
+            placeholder="Dirección"
+            value={newSchool.address}
+            onChange={e => setNewSchool({ ...newSchool, address: e.target.value })}
+            style={styles.input}
+          />
+        </div>
+        <input
+          type="email"
+          placeholder="Email de contacto"
+          value={newSchool.contact_email}
+          onChange={e => setNewSchool({ ...newSchool, contact_email: e.target.value })}
+          style={styles.input}
+        />
+        <button onClick={handleCreateSchool} style={styles.btnPrimary}>
+          Crear Colegio
+        </button>
+
+        <table style={styles.table}>
+          <thead>
+            <tr style={styles.tableHeader}>
+              <th>Nombre</th>
+              <th>Dirección</th>
+              <th>Email</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {schools.map(school => (
+              <tr key={school.id}>
+                <td>{school.name}</td>
+                <td>{school.address}</td>
+                <td>{school.contact_email}</td>
+                <td>
+                  <button
+                    onClick={() => handleDeleteSchool(school.id)}
+                    style={{ ...styles.btn, background: '#d9534f' }}
+                  >
+                    Eliminar
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+
+      {/* === GESTIÓN DE DOCENTES === */}
+      <section style={styles.section}>
+        <h3 style={styles.subtitle}>👨‍🏫 Gestionar Docentes</h3>
+
+        <div style={styles.formRow}>
+          <input
+            type="text"
+            placeholder="Nombre completo"
+            value={newTeacher.name}
+            onChange={e => setNewTeacher({ ...newTeacher, name: e.target.value })}
+            style={styles.input}
+          />
+          <input
+            type="text"
+            placeholder="Usuario"
+            value={newTeacher.username}
+            onChange={e => setNewTeacher({ ...newTeacher, username: e.target.value })}
+            style={styles.input}
+          />
+        </div>
+        <div style={styles.formRow}>
+          <input
+            type="password"
+            placeholder="Contraseña"
+            value={newTeacher.password}
+            onChange={e => setNewTeacher({ ...newTeacher, password: e.target.value })}
+            style={styles.input}
+          />
+          <select
+            value={newTeacher.school_id}
+            onChange={e => setNewTeacher({ ...newTeacher, school_id: e.target.value })}
+            style={styles.input}
+          >
+            <option value="">Seleccionar colegio</option>
+            {schools.map(s => (
+              <option key={s.id} value={s.id}>{s.name}</option>
+            ))}
+          </select>
+        </div>
+        <label style={styles.checkboxLabel}>
+          <input
+            type="checkbox"
+            checked={newTeacher.is_coordinator}
+            onChange={e => setNewTeacher({ ...newTeacher, is_coordinator: e.target.checked })}
+          />
+          ¿Es docente encargado?
+        </label>
+
+        <button onClick={handleCreateTeacher} style={styles.btnPrimary}>
+          Crear Docente
+        </button>
+
+        <table style={styles.table}>
+          <thead>
+            <tr style={styles.tableHeader}>
+              <th>Nombre</th>
+              <th>Usuario</th>
+              <th>Colegio</th>
+              <th>Rol</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {teachers.map(teacher => (
+              <tr key={teacher.id}>
+                <td>{teacher.name}</td>
+                <td>{teacher.username}</td>
+                <td>{schools.find(s => s.id === teacher.school_id)?.name || 'N/A'}</td>
+                <td>{teacher.is_coordinator ? 'Encargado' : 'Normal'}</td>
+                <td>
+                  <button
+                    onClick={() => handleDeleteTeacher(teacher.id)}
+                    style={{ ...styles.btn, background: '#d9534f' }}
+                  >
+                    Eliminar
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+    </div>
+  );
+}
+
+// === ESTILOS ===
+const styles = {
+  container: {
+    padding: '20px',
+    fontFamily: 'Montserrat, sans-serif',
+    background: 'white',
+    borderRadius: '12px',
+    boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+    margin: '20px auto',
+    maxWidth: '1200px'
+  },
+  title: {
+    color: 'var(--primary)',
+    textAlign: 'center',
+    marginBottom: '20px',
+    fontSize: '1.8em'
+  },
+  subtitle: {
+    color: 'var(--primary)',
+    marginBottom: '15px',
+    borderBottom: '2px solid var(--secondary)',
+    paddingBottom: '5px'
+  },
+  section: {
+    backgroundColor: '#f9f9f9',
+    padding: '20px',
+    borderRadius: '10px',
+    marginBottom: '30px',
+    border: '1px solid #eee'
+  },
+  formRow: {
+    display: 'flex',
+    gap: '10px',
+    flexWrap: 'wrap',
+    marginBottom: '10px'
+  },
+  input: {
+    flex: 1,
+    padding: '10px',
+    border: '1px solid #ddd',
+    borderRadius: '6px',
+    fontSize: '1em'
+  },
+  checkboxLabel: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+    margin: '10px 0'
+  },
+  btn: {
+    padding: '8px 12px',
+    border: 'none',
+    borderRadius: '6px',
+    cursor: 'pointer',
+    fontWeight: 'bold',
+    fontSize: '0.9em'
+  },
+  btnPrimary: {
+    background: 'var(--secondary)',
+    color: 'var(--primary)',
+    border: 'none',
+    padding: '12px 20px',
+    borderRadius: '6px',
+    fontWeight: 'bold',
+    cursor: 'pointer',
+    fontSize: '1em'
+  },
+  table: {
+    width: '100%',
+    borderCollapse: 'collapse',
+    marginTop: '15px'
+  },
+  tableHeader: {
+    backgroundColor: 'var(--primary)',
+    color: 'white'
+  }
+};
