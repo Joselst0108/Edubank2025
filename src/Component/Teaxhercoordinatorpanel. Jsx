@@ -1,0 +1,110 @@
+import React, { useState } from 'react';
+import { useTheme } from './ThemeProvider';
+
+export default function TeacherCoordinatorPanel({ teacher }) {
+  const { theme, updateTheme } = useTheme();
+  const [students, setStudents] = useState([
+    { id: 1, name: 'Ana Pérez', student_code: 'AL001', balance: 150.50 },
+    { id: 2, name: 'Luis Gómez', student_code: 'AL002', balance: 85.00 }
+  ]);
+  const [newStudent, setNewStudent] = useState({ name: '', student_code: '' });
+
+  // === CREAR ALUMNO ===
+  const handleCreateStudent = () => {
+    if (!newStudent.name || !newStudent.student_code) {
+      alert('Completa todos los campos');
+      return;
+    }
+
+    const exists = students.some(s => s.student_code === newStudent.student_code);
+    if (exists) {
+      alert('Ya existe un alumno con ese código');
+      return;
+    }
+
+    const student = {
+      ...newStudent,
+      id: Date.now(),
+      balance: 0
+    };
+
+    setStudents([...students, student]);
+    setNewStudent({ name: '', student_code: '' });
+    alert(`✅ Alumno ${student.name} creado con éxito`);
+  };
+
+  // === ELIMINAR ALUMNO ===
+  const handleDeleteStudent = (id) => {
+    if (window.confirm('¿Estás seguro de eliminar a este alumno? Se perderá su historial.')) {
+      setStudents(students.filter(s => s.id !== id));
+    }
+  };
+
+  // === AJUSTAR DINERO ===
+  const [adjustForm, setAdjustForm] = useState({
+    student_code: '',
+    amount: '',
+    action: 'add',
+    reason: ''
+  });
+
+  const handleAdjust = () => {
+    const { student_code, amount, action, reason } = adjustForm;
+    const amountNum = parseFloat(amount);
+
+    if (!student_code || isNaN(amountNum) || amountNum <= 0 || !reason) {
+      alert('Completa todos los campos correctamente');
+      return;
+    }
+
+    const student = students.find(s => s.student_code === student_code);
+    if (!student) {
+      alert('Alumno no encontrado');
+      return;
+    }
+
+    const newBalance = action === 'add'
+      ? student.balance + amountNum
+      : student.balance - amountNum;
+
+    if (newBalance < 0) {
+      alert('No se puede dejar saldo negativo');
+      return;
+    }
+
+    setStudents(students.map(s =>
+      s.student_code === student_code
+        ? { ...s, balance: newBalance }
+        : s
+    ));
+
+    alert(`✅ Se ${action === 'add' ? 'aumentó' : 'quitó'} S/ ${amountNum.toFixed(2)} a ${student.name}`);
+    setAdjustForm({ student_code: '', amount: '', action: 'add', reason: '' });
+  };
+
+  // === PERSONALIZAR INTERFAZ DEL COLEGIO ===
+  const handleApplyTheme = () => {
+    const primary = document.getElementById('primaryColor').value;
+    const secondary = document.getElementById('secondaryColor').value;
+    const logo = document.getElementById('schoolLogo').value;
+    const name = document.getElementById('customName').value;
+
+    updateTheme({
+      primary,
+      secondary,
+      logo: logo || 'https://via.placeholder.com/120x40?text=LOGO',
+      name: name || 'Banca Escolar'
+    });
+
+    alert('✅ Tema del colegio actualizado con éxito');
+  };
+
+  return (
+    <div style={styles.container}>
+      <h2 style={styles.title}>🎨 Panel del Docente Encargado</h2>
+
+      {/* === PERSONALIZAR INTERFAZ === */}
+      <section style={styles.section}>
+        <h3 style={styles.subtitle}>🖌️ Personalizar Interfaz del Colegio</h3>
+        <div style={styles.formRow}>
+          <div style
