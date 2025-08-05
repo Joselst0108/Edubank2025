@@ -1,0 +1,21 @@
+{
+  "name": "edubank2025",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "axios": "^1.6.0"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0",
+    "json-server": "^0.17.3"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "api": "json-server --watch db.json --port 5000",
+    "dev": "concurrently \"npm start\" \"npm run api\""
+  }
+}
