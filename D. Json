@@ -1,0 +1,56 @@
+{
+  "schools": [
+    {
+      "id": 1,
+      "name": "Colegio San Ignacio",
+      "theme_primary": "#007A3D",
+      "theme_secondary": "#FED100",
+      "school_logo": "https://via.placeholder.com/120x40?text=SAN+IGNACIO",
+      "custom_name": "Banca Escolar San Ignacio"
+    }
+  ],
+  "admins": [
+    {
+      "id": 1,
+      "username": "admin",
+      "password": "admin123"
+    }
+  ],
+  "teachers": [
+    {
+      "id": 1,
+      "name": "Prof. Rodríguez",
+      "username": "profe1",
+      "password": "12345",
+      "school_id": 1,
+      "is_coordinator": true,
+      "assigned_school_id": 1
+    },
+    {
+      "id": 2,
+      "name": "Prof. López",
+      "username": "profe2",
+      "password": "12345",
+      "school_id": 1,
+      "is_coordinator": false,
+      "assigned_school_id": null
+    }
+  ],
+  "students": [
+    {
+      "id": 1,
+      "name": "Ana Pérez",
+      "student_code": "AL001",
+      "school_id": 1,
+      "balance": 150.50
+    },
+    {
+      "id": 2,
+      "name": "Luis Gómez",
+      "student_code": "AL002",
+      "school_id": 1,
+      "balance": 85.00
+    }
+  ],
+  "transactions": []
+}
