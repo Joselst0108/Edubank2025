@@ -1,0 +1,24 @@
+import React, { useState } from 'react';
+
+export default function TeacherPanel({ teacher }) {
+  const [students] = useState([
+    { id: 1, name: 'Ana Pérez', student_code: 'AL001', balance: 150.50 },
+    { id: 2, name: 'Luis Gómez', student_code: 'AL002', balance: 85.00 },
+    { id: 3, name: 'Carla Díaz', student_code: 'AL003', balance: 200.00 }
+  ]);
+
+  const [adjustForm, setAdjustForm] = useState({
+    student_code: '',
+    amount: '',
+    action: 'add',
+    reason: ''
+  });
+
+  const [transferForm, setTransferForm] = useState({
+    sender_code: '',
+    receiver_code: '',
+    amount: '',
+    description: ''
+  });
+
+  // === AJUSTAR DINERO (pre
