@@ -1,0 +1,47 @@
+import React from 'react';
+import TeacherCoordinatorPanel from '../components/TeacherCoordinatorPanel';
+import TeacherPanel from '../components/TeacherPanel';
+
+export default function Dashboard({ user }) {
+  if (!user) {
+    window.location.href = '/login';
+    return null;
+  }
+
+  return (
+    <div>
+      <header style={styles.header}>
+        <h1>{user.is_coordinator ? '👨‍🏫 ' : ''} {user.name}</h1>
+        <a href="/" style={styles.logout}>Cerrar sesión</a>
+      </header>
+
+      <div style={styles.container}>
+        {user.is_coordinator ? (
+          <TeacherCoordinatorPanel teacher={user} />
+        ) : (
+          <TeacherPanel teacher={user} />
+        )}
+      </div>
+    </div>
+  );
+}
+
+const styles = {
+  header: {
+    background: 'var(--primary)',
+    color: 'white',
+    padding: '20px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  logout: {
+    color: 'white',
+    textDecoration: 'none'
+  },
+  container: {
+    padding: '30px',
+    maxWidth: '1200px',
+    margin: '0 auto'
+  }
+};
