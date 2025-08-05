@@ -1,0 +1,74 @@
+import { db } from '../firebase';
+import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc } from 'firebase/firestore';
+
+// Funciones para Schools (colegios)
+export const getSchools = async () => {
+  const snapshot = await getDocs(collection(db, 'schools'));
+  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+};
+
+export const createSchool = async (school) => {
+  const docRef = await addDoc(collection(db, 'schools'), school);
+  return { id: docRef.id, ...school };
+};
+
+export const updateSchool = async (id, school) => {
+  await updateDoc(doc(db, 'schools', id), school);
+  return { id, ...school };
+};
+
+// Funciones para Teachers (docentes)
+export const getTeachers = async () => {
+  const snapshot = await getDocs(collection(db, 'teachers'));
+  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+};
+
+export const createTeacher = async (teacher) => {
+  const docRef = await addDoc(collection(db, 'teachers'), teacher);
+  return { id: docRef.id, ...teacher };
+};
+
+export const updateTeacher = async (id, teacher) => {
+  await updateDoc(doc(db, 'teachers', id), teacher);
+  return { id, ...teacher };
+};
+
+export const deleteTeacher = async (id) => {
+  await deleteDoc(doc(db, 'teachers', id));
+};
+
+// Funciones para Students (alumnos)
+export const getStudents = async () => {
+  const snapshot = await getDocs(collection(db, 'students'));
+  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+};
+
+export const createStudent = async (student) => {
+  const docRef = await addDoc(collection(db, 'students'), student);
+  return { id: docRef.id, ...student };
+};
+
+export const updateStudentBalance = async (id, newBalance) => {
+  await updateDoc(doc(db, 'students', id), { balance: newBalance });
+  return { id, balance: newBalance };
+};
+
+// Funciones para Transactions (transacciones)
+export const getTransactions = async () => {
+  const snapshot = await getDocs(collection(db, 'transactions'));
+  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+};
+
+export const createTransaction = async (transaction) => {
+  const docRef = await addDoc(collection(db, 'transactions'), {
+    ...transaction,
+    created_at: new Date()
+  });
+  return { id: docRef.id, ...transaction };
+};
+
+// Para login (simplificado)
+export const login = async (username, password, role) => {
+  let collectionName = '';
+  if (role === 'admin') collectionName = 'admins';
+  if (role === 'teacher') collection
