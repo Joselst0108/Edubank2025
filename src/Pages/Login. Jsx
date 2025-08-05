@@ -1,0 +1,111 @@
+import React, { useState } from 'react';
+
+export default function Login({ setUser }) {
+  const [credentials, setCredentials] = useState({
+    username: '',
+    password: '',
+    role: 'teacher'
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Simulación de login (en producción: petición a backend)
+    if (credentials.username === 'profe1' && credentials.password === '12345') {
+      const mockUser = {
+        id: 1,
+        name: 'Prof. Rodríguez',
+        username: 'profe1',
+        is_coordinator: true,
+        school_id: 1
+      };
+      localStorage.setItem('user', JSON.stringify(mockUser));
+      setUser(mockUser);
+      window.location.href = '/dashboard';
+    } else if (credentials.username === 'profe2' && credentials.password === '12345') {
+      const mockUser = {
+        id: 2,
+        name: 'Prof. López',
+        username: 'profe2',
+        is_coordinator: false,
+        school_id: 1
+      };
+      localStorage.setItem('user', JSON.stringify(mockUser));
+      setUser(mockUser);
+      window.location.href = '/dashboard';
+    } else {
+      alert('Usuario o contraseña incorrectos');
+    }
+  };
+
+  return (
+    <div style={styles.container}>
+      <div style={styles.form}>
+        <h2>🔐 Iniciar Sesión</h2>
+        <form onSubmit={handleSubmit}>
+          <input
+            placeholder="Usuario"
+            value={credentials.username}
+            onChange={e => setCredentials({ ...credentials, username: e.target.value })}
+            style={styles.input}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Contraseña"
+            value={credentials.password}
+            onChange={e => setCredentials({ ...credentials, password: e.target.value })}
+            style={styles.input}
+            required
+          />
+          <select
+            value={credentials.role}
+            onChange={e => setCredentials({ ...credentials, role: e.target.value })}
+            style={styles.input}
+          >
+            <option value="teacher">Docente</option>
+            <option value="admin">Administrador</option>
+          </select>
+          <button type="submit" style={styles.btn}>Entrar</button>
+        </form>
+        <p style={{ fontSize: '0.9em', color: '#d9534f', marginTop: '10px' }}>
+          <strong>Demo:</strong> profe1 / 12345
+        </p>
+      </div>
+    </div>
+  );
+}
+
+const styles = {
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: '100vh',
+    background: 'var(--primary)'
+  },
+  form: {
+    background: 'white',
+    padding: '40px',
+    borderRadius: '12px',
+    width: '350px',
+    textAlign: 'center'
+  },
+  input: {
+    width: '100%',
+    padding: '12px',
+    margin: '10px 0',
+    border: '1px solid #ddd',
+    borderRadius: '6px'
+  },
+  btn: {
+    background: 'var(--secondary)',
+    color: 'var(--primary)',
+    padding: '12px',
+    border: 'none',
+    borderRadius: '6px',
+    fontWeight: 'bold',
+    width: '100%',
+    fontSize: '1.1em',
+    cursor: 'pointer'
+  }
+};
