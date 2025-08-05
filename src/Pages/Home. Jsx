@@ -1,0 +1,62 @@
+import React from 'react';
+
+export default function Home() {
+  return (
+    <div style={styles.container}>
+      <header style={styles.header}>
+        <h1>BANCA ESCOLAR</h1>
+        <p>Sistema financiero para colegios modernos</p>
+        <a href="/login" style={styles.btn}>Iniciar Sesión</a>
+      </header>
+
+      <main style={styles.main}>
+        <div style={styles.card}>
+          <h3>👨‍🏫 Docentes</h3>
+          <p>Pueden crear alumnos, ajustar saldos y gestionar dinero</p>
+        </div>
+        <div style={styles.card}>
+          <h3>🎓 Alumnos</h3>
+          <p>Hacen transferencias entre ellos con códigos únicos</p>
+        </div>
+        <div style={styles.card}>
+          <h3>🎨 Personalización</h3>
+          <p>Cada colegio puede cambiar colores, logo y nombre</p>
+        </div>
+      </main>
+    </div>
+  );
+}
+
+const styles = {
+  container: {
+    fontFamily: 'Montserrat, sans-serif',
+    background: '#f5f5f5'
+  },
+  header: {
+    background: 'var(--primary)',
+    color: 'white',
+    padding: '60px 20px',
+    textAlign: 'center'
+  },
+  btn: {
+    background: 'var(--secondary)',
+    color: 'var(--primary)',
+    padding: '12px 30px',
+    borderRadius: '6px',
+    fontWeight: 'bold',
+    textDecoration: 'none',
+    display: 'inline-block',
+    marginTop: '20px'
+  },
+  main: {
+    display: 'flex',
+    justifyContent: 'center',
+    gap: '30px',
+    flexWrap: 'wrap',
+    padding: '40px'
+  },
+  card: {
+    background: 'white',
+    padding: '20px',
+    width: '250px',
+    borderRadius: '
