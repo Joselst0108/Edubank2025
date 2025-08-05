@@ -1,0 +1,37 @@
+import React, { useState } from 'react';
+
+export default function AdminPanel() {
+  const [schools, setSchools] = useState([
+    { id: 1, name: 'Colegio San Ignacio', address: 'Av. Principal 123', contact: 'contacto@sanignacio.edu.pe' },
+    { id: 2, name: 'Colegio Santa María', address: 'Calle Luna 456', contact: 'info@santamaria.edu.pe' }
+  ]);
+
+  const [teachers, setTeachers] = useState([
+    { id: 1, name: 'Prof. Rodríguez', username: 'profe1', school_id: 1, is_coordinator: true },
+    { id: 2, name: 'Prof. López', username: 'profe2', school_id: 1, is_coordinator: false },
+    { id: 3, name: 'Prof. Gómez', username: 'profe3', school_id: 2, is_coordinator: true }
+  ]);
+
+  const [newSchool, setNewSchool] = useState({ name: '', address: '', contact: '' });
+  const [newTeacher, setNewTeacher] = useState({ name: '', username: '', password: '', school_id: '', is_coordinator: false });
+
+  // === CREAR COLEGIO ===
+  const handleCreateSchool = () => {
+    if (!newSchool.name || !newSchool.address || !newSchool.contact) {
+      alert('Completa todos los campos del colegio');
+      return;
+    }
+
+    const school = {
+      id: schools.length + 1,
+      ...newSchool
+    };
+
+    setSchools([...schools, school]);
+    setNewSchool({ name: '', address: '', contact: '' });
+    alert(`✅ Colegio "${school.name}" creado con éxito`);
+  };
+
+  // === ELIMINAR COLEGIO ===
+  const handleDeleteSchool = (id) => {
+    if (window.confirm('¿Eliminar este colegio? Se b
