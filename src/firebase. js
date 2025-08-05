@@ -1,0 +1,19 @@
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+
+const firebaseConfig = {
+  apiKey: "TU_API_KEY",
+  authDomain: "edubank2025.firebaseapp.com",
+  projectId: "edubank2025",
+  storageBucket: "edubank2025.appspot.com",
+  messagingSenderId: "TU_SENDER_ID",
+  appId: "TU_APP_ID"
+};
+
+// Inicializa Firebase
+const app = initializeApp(firebaseConfig);
+
+// Inicializa Firestore
+const db = getFirestore(app);
+
+export { db };
